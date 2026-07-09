@@ -1,0 +1,18 @@
+# Render service manifest template.
+# Replace <GITHUB_OWNER> and <GITHUB_REPO> with your values before using.
+# You can use this file as a starting point when creating a new Render service.
+
+services:
+  - type: web
+    name: robotics-ecommerce-backend
+    env: node
+    plan: free
+    repo: https://github.com/netcom123/robotics-ecommerce
+    branch: main
+    buildCommand: cd server && npm ci
+    startCommand: cd server && npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: '10000'

@@ -1,0 +1,52 @@
+name: Deploy Backend to Railway
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Login to Railway
+        env:
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+        run: |
+          if [ -z "$RAILWAY_API_KEY" ]; then
+            echo "Missing RAILWAY_API_KEY secret"; exit 1
+          fi
+          railway login --apiKey "$RAILWAY_API_KEY"
+
+      - name: Link project (optional)
+        env:
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          if [ -n "$RAILWAY_PROJECT_ID" ]; then
+            railway link --projectId "$RAILWAY_PROJECT_ID" || true
+          else
+            echo "No RAILWAY_PROJECT_ID provided; continuing without linking"
+          fi
+
+      - name: Deploy backend with Railway
+        working-directory: server
+        env:
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+        run: |
+          # Deploy the server directory; --detach returns immediately
+          railway up --detach || { echo 'Railway deploy failed'; exit 1; }
