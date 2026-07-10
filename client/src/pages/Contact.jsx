@@ -12,19 +12,21 @@ function Contact() {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
-    setStatus({ type: '', message: '' });
-    try {
-      await sendContactMessage(form);
-      setStatus({ type: 'success', message: 'Message sent successfully. We will contact you soon.' });
-      setForm({ name: '', email: '', phone: '', subject: '', message: '' });
-    } catch (error) {
-      setStatus({ type: 'error', message: error.response?.data?.message || 'Failed to send message.' });
-    } finally {
-      setLoading(false);
-    }
+    
+    const text = `*New Contact Enquiry*
+*Name:* ${form.name}
+*Email:* ${form.email}
+*Phone:* ${form.phone}
+*Subject:* ${form.subject}
+*Message:* ${form.message}`;
+
+    const whatsappUrl = `https://wa.me/917907354117?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    // Clear the form after sending
+    setForm({ name: '', email: '', phone: '', subject: '', message: '' });
   };
 
   return (

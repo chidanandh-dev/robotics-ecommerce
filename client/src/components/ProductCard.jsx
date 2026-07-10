@@ -1,4 +1,4 @@
-import { ArrowRight, ShoppingCart, Star } from 'lucide-react';
+import { ArrowRight, MessageCircle, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import productImage from '../logo.png.png';
@@ -7,6 +7,17 @@ function ProductCard({ product }) {
   const { addToCart } = useCart();
   const imageSrc = product.image || productImage;
   const canAddToCart = product.category !== 'Online Training';
+
+  const handleWhatsApp = (e) => {
+    e.preventDefault();
+    const text = `Hi, I'm interested in buying:
+*${product.name}*
+Price: ₹${product.price.toLocaleString('en-IN')}
+Link: ${window.location.origin}/products/${product.id}`;
+
+    const whatsappUrl = `https://wa.me/917907354117?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <article className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm hover:-translate-y-1 hover:shadow-xl">
@@ -51,10 +62,10 @@ function ProductCard({ product }) {
           </div>
           {canAddToCart ? (
             <button
-              onClick={() => addToCart(product)}
-              className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-sky-700"
+              onClick={handleWhatsApp}
+              className="inline-flex items-center gap-2 rounded-full bg-green-500 px-4 py-2 text-sm font-bold text-white hover:bg-green-600"
             >
-              <ShoppingCart size={17} /> Add
+              <MessageCircle size={17} /> WhatsApp
             </button>
           ) : (
             <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500">

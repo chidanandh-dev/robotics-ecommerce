@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle2, ShoppingCart, Star } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, MessageCircle, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
@@ -12,6 +12,17 @@ function ProductDetails() {
   const canAddToCart = product?.category !== 'Online Training';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const handleWhatsApp = () => {
+    if (!product) return;
+    const text = `Hi, I'm interested in buying:
+*${product.name}*
+Price: ₹${product.price.toLocaleString('en-IN')}
+Link: ${window.location.href}`;
+
+    const whatsappUrl = `https://wa.me/917907354117?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -74,11 +85,11 @@ function ProductDetails() {
             <p className="mt-1 text-sm text-slate-500">Inclusive of GST. Shipping calculated during checkout.</p>
             {canAddToCart ? (
               <button
-                onClick={() => addToCart(product)}
+                onClick={handleWhatsApp}
                 disabled={product.stock <= 0}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-600 px-6 py-3 font-black text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-500 px-6 py-3 font-black text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:bg-slate-300"
               >
-                <ShoppingCart size={20} /> Add to Cart
+                <MessageCircle size={20} /> Order on WhatsApp
               </button>
             ) : (
               <div className="mt-6 rounded-full border border-slate-200 bg-slate-100 px-6 py-3 text-center text-sm font-bold text-slate-600">
