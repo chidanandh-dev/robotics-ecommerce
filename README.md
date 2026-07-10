@@ -24,7 +24,7 @@ A responsive full-stack website for selling robotics kits and online robotics tr
 
 ```txt
 robotics-ecommerce/
-├── client/
+├── frontend/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── context/
@@ -32,7 +32,7 @@ robotics-ecommerce/
 │   │   ├── pages/
 │   │   └── services/
 │   └── package.json
-├── server/
+├── backend/
 │   ├── controllers/
 │   ├── middleware/
 │   ├── routes/
@@ -47,7 +47,7 @@ robotics-ecommerce/
 ### 1. Backend
 
 ```bash
-cd server
+cd backend
 cp .env.example .env
 npm install
 npm run dev
@@ -64,7 +64,7 @@ http://localhost:5000
 Open a second terminal:
 
 ```bash
-cd client
+cd frontend
 cp .env.example .env
 npm install
 npm run dev
@@ -83,11 +83,11 @@ Email: admin@roboticsnetcom.com
 Password: admin123
 ```
 
-You can change this in `server/.env`.
+You can change this in `backend/.env`.
 
 ## Stripe Setup
 
-The app includes a real Stripe Checkout Session endpoint. Add your Stripe secret key to `server/.env`:
+The app includes a real Stripe Checkout Session endpoint. Add your Stripe secret key to `backend/.env`:
 
 ```env
 STRIPE_SECRET_KEY=sk_test_your_key_here
@@ -111,7 +111,7 @@ Before production:
 
 This repo includes GitHub Actions workflows to deploy the full website:
 
-- Frontend (`client`) is built and deployed to GitHub Pages via `.github/workflows/deploy-frontend.yml`.
+- Frontend (`frontend`) is built and deployed to GitHub Pages via `.github/workflows/deploy-frontend.yml`.
 - Backend can be triggered to deploy on Render via `.github/workflows/deploy-backend-render.yml`.
 
 Required GitHub repository secrets:
@@ -133,7 +133,7 @@ If you prefer a different provider for the backend (Vercel, Railway, Heroku), te
 
 1. Create a Render account at https://render.com and connect your GitHub repo.
 2. In Render, create a new **Web Service** and connect it to this repository and the `main` branch. You can use the `render.yaml` template included in the repo — replace `<GITHUB_OWNER>` and `<GITHUB_REPO>` in `render.yaml` with your values.
-3. Set the build command to `cd server && npm ci` and the start command to `cd server && npm run start` (these are included in `render.yaml`).
+3. Set the build command to `cd backend && pip install -r requirements.txt` and the start command to `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT` (these are included in `render.yaml`).
 4. After the service is created, get the service ID from the Render dashboard (Service → Settings → Service ID).
 5. Create an **API Key** in Render (Account → API Keys) with deploy permissions.
 6. In your GitHub repository, add the following repository secrets (Settings → Secrets → Actions):
@@ -144,7 +144,7 @@ If you prefer a different provider for the backend (Vercel, Railway, Heroku), te
 
 If you want, I can:
 - Fill in `render.yaml` with your GitHub repo owner and repo name and open a PR for you to review.
-- Create a dedicated GitHub Actions workflow that builds the `server` and deploys the artifact to Render via `render` CLI (requires a Render service token).
+- Create a dedicated GitHub Actions workflow that builds the `backend` and deploys the artifact to Render via `render` CLI (requires a Render service token).
 
 ### Deploying backend to Railway (recommended simple flow)
 
@@ -160,7 +160,7 @@ Steps to use Railway deploy workflow:
 	- `RAILWAY_API_KEY` — your Railway API token
 	- `RAILWAY_PROJECT_ID` — optional, the project ID
 	- `PROD_API_URL` — production backend URL (set after Railway gives you the service URL)
-6. Push to `main`. The `deploy-backend-railway.yml` workflow will install the Railway CLI and run `railway up` in `server/` to deploy.
+6. Push to `main`. The `deploy-backend-railway.yml` workflow will install the Railway CLI and run `railway up` in `backend/` to deploy.
 
 If you want, I can fill `render.yaml` or help connect Railway directly; tell me which and I will prepare a PR.
 
