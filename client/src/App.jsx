@@ -8,9 +8,6 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Products from './pages/Products.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
-import Cart from './pages/Cart.jsx';
-import CheckoutSuccess from './pages/CheckoutSuccess.jsx';
-import CheckoutCancel from './pages/CheckoutCancel.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import Contact from './pages/Contact.jsx';
 import NotFound from './pages/NotFound.jsx';
@@ -27,16 +24,6 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route
-              path="/checkout-success"
-              element={
-                <ProtectedRoute>
-                  <CheckoutSuccess />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/checkout-cancel" element={<CheckoutCancel />} />
             <Route
               path="/admin"
               element={

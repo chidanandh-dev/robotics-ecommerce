@@ -1,13 +1,11 @@
 import { ArrowLeft, CheckCircle2, MessageCircle, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useCart } from '../context/CartContext.jsx';
 import productImage from '../logo.png.png';
 import { getProductById } from '../services/productService.js';
 
 function ProductDetails() {
   const { id } = useParams();
-  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const canAddToCart = product?.category !== 'Online Training';
   const [loading, setLoading] = useState(true);
@@ -16,6 +14,17 @@ function ProductDetails() {
   const handleWhatsApp = () => {
     if (!product) return;
     const text = `Hi, I'm interested in buying:
+*${product.name}*
+Price: ₹${product.price.toLocaleString('en-IN')}
+Link: ${window.location.href}`;
+
+    const whatsappUrl = `https://wa.me/917907354117?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleCourseWhatsApp = () => {
+    if (!product) return;
+    const text = `Hi, I'm interested in the course:
 *${product.name}*
 Price: ₹${product.price.toLocaleString('en-IN')}
 Link: ${window.location.href}`;
@@ -92,9 +101,12 @@ Link: ${window.location.href}`;
                 <MessageCircle size={20} /> Order on WhatsApp
               </button>
             ) : (
-              <div className="mt-6 rounded-full border border-slate-200 bg-slate-100 px-6 py-3 text-center text-sm font-bold text-slate-600">
-                Training courses are available through contact enquiry
-              </div>
+              <button
+                onClick={handleCourseWhatsApp}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-6 py-3 font-black text-white hover:bg-sky-600"
+              >
+                <MessageCircle size={20} /> Enroll Now
+              </button>
             )}
           </div>
 

@@ -1,8 +1,7 @@
-import { LayoutDashboard, Menu, ShoppingCart, X } from 'lucide-react';
+import { LayoutDashboard, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import { useCart } from '../context/CartContext.jsx';
 import logo from '../logo.png.png';
 
 const navItems = [
@@ -14,7 +13,6 @@ const navItems = [
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  const { itemCount } = useCart();
   const navigate = useNavigate();
 
   const linkClass = ({ isActive }) =>
@@ -48,14 +46,6 @@ function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link to="/cart" className="relative rounded-full p-2 text-slate-700 hover:bg-slate-100 hover:text-sky-700">
-            <ShoppingCart size={22} />
-            {itemCount > 0 && (
-              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-emerald-500 px-1 text-xs font-bold text-white">
-                {itemCount}
-              </span>
-            )}
-          </Link>
 
         </div>
 
@@ -83,9 +73,6 @@ function Navbar() {
                 </span>
               </NavLink>
             )}
-            <NavLink to="/cart" className={linkClass} onClick={() => setIsOpen(false)}>
-              Cart ({itemCount})
-            </NavLink>
           </div>
         </div>
       )}

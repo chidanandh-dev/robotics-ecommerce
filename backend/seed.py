@@ -1,3 +1,4 @@
+
 import os
 import uuid
 import datetime
@@ -14,7 +15,7 @@ initial_products = [
     "price": 2499,
     "stock": 25,
     "emoji": "🤖",
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    "image": "/images/kit_starter_arduino.png",
     "featured": True,
     "rating": 4.8,
     "shortDescription": "Beginner-friendly robotics kit with Arduino, sensors, motors, and guided projects.",
