@@ -65,7 +65,7 @@ Link: ${window.location.origin}/products/${product.id}`;
               onClick={handleWhatsApp}
               className="inline-flex items-center gap-2 rounded-full bg-green-500 px-4 py-2 text-sm font-bold text-white hover:bg-green-600"
             >
-              <MessageCircle size={17} /> WhatsApp
+              <MessageCircle size={17} /> Order Now
             </button>
           ) : (
             <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500">

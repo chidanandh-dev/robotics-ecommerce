@@ -1,4 +1,4 @@
-import { LayoutDashboard, Menu, ShoppingCart, UserRound, X } from 'lucide-react';
+import { LayoutDashboard, Menu, ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -13,15 +13,9 @@ const navItems = [
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user } = useAuth();
   const { itemCount } = useCart();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    setIsOpen(false);
-    navigate('/');
-  };
 
   const linkClass = ({ isActive }) =>
     `rounded-full px-3 py-2 text-sm font-medium ${
@@ -63,24 +57,6 @@ function Navbar() {
             )}
           </Link>
 
-          {isAuthenticated ? (
-            <div className="flex items-center gap-2">
-              <span className="hidden text-sm text-slate-600 lg:inline">Hi, {user.name}</span>
-              <button
-                onClick={handleLogout}
-                className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-500 hover:text-sky-700"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link
-              to="/login"
-              className="inline-flex items-center gap-2 rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700"
-            >
-              <UserRound size={18} /> Login
-            </Link>
-          )}
         </div>
 
         <button
@@ -110,15 +86,6 @@ function Navbar() {
             <NavLink to="/cart" className={linkClass} onClick={() => setIsOpen(false)}>
               Cart ({itemCount})
             </NavLink>
-            {isAuthenticated ? (
-              <button onClick={handleLogout} className="rounded-xl bg-slate-900 px-4 py-2 text-left text-sm font-semibold text-white">
-                Logout
-              </button>
-            ) : (
-              <Link to="/login" onClick={() => setIsOpen(false)} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white">
-                Login
-              </Link>
-            )}
           </div>
         </div>
       )}
